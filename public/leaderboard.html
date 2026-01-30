@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LEADERBOARD</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-center">
+    <div class="panel wide">
+      <h1>LEADERBOARD</h1>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>TEAM</th>
+              <th>SCORE</th>
+              <th>PILL</th>
+              <th>STATIONS</th>
+            </tr>
+          </thead>
+          <tbody id="board"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="client.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADMIN PANEL</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== CHECK QUYỀN NGAY LẬP TỨC ===== -->
+  <script>
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    console.log('Admin page - user from sessionStorage:', user);
+    if (!user || user.role !== 'admin') {
+      console.log('Not admin, redirecting...');
+      location.href = '/index.html';
+    }
+  </script>
+
+  <div class="page-center">
+    <div class="panel wide">
+
+      <h1>ADMIN CONTROL</h1>
+
+      <!-- ===== ADMIN FORM ===== -->
+      <div class="admin-form">
+        <select id="team">
+          <option value="">-- Select Team --</option>
+        </select>
+
+        <input id="score" type="number" placeholder="+ / - SCORE" />
+        <input id="ammo" type="number" placeholder="+ / - AMMO" />
+        <input id="stations" type="number" placeholder="+ STATION" />
+
+        <button onclick="update()">APPLY</button>
+      </div>
+
+      <hr />
+
+      <!-- ===== LEADERBOARD TABLE ===== -->
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>TEAM</th>
+              <th>SCORE</th>
+              <th>PILLS</th>
+              <th>STATIONS</th>
+            </tr>
+          </thead>
+          <tbody id="board"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="client.js"></script>
+
+  <script>
+    // Load teams on page load
+    async function loadTeams() {
+      console.log('loadTeams called');
+      console.log('User object:', user);
+      console.log('User username:', user?.username);
+      
+      if (!user || !user.username) {
+        console.error('User not found or no username');
+        return;
+      }
+
+      try {
+        console.log('Fetching teams for user:', user.username);
+        const res = await fetch('/api/teams', {
+          method: 'GET',
+          headers: { 'x-user': user.username }
+        });
+        console.log('Teams response status:', res.status);
+        
+        if (res.ok) {
+          const teams = await res.json();
+          console.log('Teams loaded:', teams);
+          const select = document.getElementById('team');
+          console.log('Select element:', select);
+          
+          if (!select) {
+            console.error('Team select element not found');
+            return;
+          }
+          
+          // Keep the placeholder, then add teams
+          select.innerHTML = '<option value="">-- Select Team --</option>';
+          teams.forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t.name;
+            opt.textContent = t.name;
+            select.appendChild(opt);
+            console.log('Added team option:', t.name);
+          });
+        } else {
+          const error = await res.text();
+          console.error('Teams error response:', res.status, error);
+        }
+      } catch (err) {
+        console.error('Failed to load teams:', err);
+      }
+    }
+
+    // Load teams immediately after DOM is ready
+    document.addEventListener('DOMContentLoaded', loadTeams);
+
+    function update() {
+      const teamSelect = document.getElementById('team');
+      if (!teamSelect.value) {
+        alert('Please select a team');
+        return;
+      }
+      
+      console.log('Updating team:', teamSelect.value);
+      fetch('/api/admin/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-user': user.username
+        },
+        body: JSON.stringify({
+          team: teamSelect.value,
+          score: Number(document.getElementById('score').value || 0),
+          ammo: Number(document.getElementById('ammo').value || 0),
+          stations: Number(document.getElementById('stations').value || 0)
+        })
+      });
+      
+      // Clear inputs after update
+      document.getElementById('score').value = '';
+      document.getElementById('ammo').value = '';
+      document.getElementById('stations').value = '';
+    }
+  </script>
+
+</body>
+</html>

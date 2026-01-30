@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GENESIS LOGIN</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page-center">
+    <div class="panel">
+      <h1>GENESIS ACCESS</h1>
+
+      <input id="username" placeholder="USERNAME" />
+      <input id="password" type="password" placeholder="PASSWORD" />
+
+      <button onclick="login()">LOGIN</button>
+      <p id="error" class="error"></p>
+    </div>
+  </div>
+
+  <script>
+    async function login() {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: username.value,
+          password: password.value
+        })
+      });
+
+      if (!res.ok) {
+        error.textContent = 'ACCESS DENIED';
+        return;
+      }
+
+      const data = await res.json();
+      sessionStorage.setItem('user', JSON.stringify(data));
+
+      // Redirect to main page regardless of role
+      location.href = '/main.html';
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,354 @@
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: url("../asset/background.png") center/cover no-repeat fixed;
+    color: #e0ffe6;
+    font-family: Consolas, monospace;
+}
+
+
+.panel {
+background: rgba(10,15,12,0.9);
+border: 2px solid #6bff7a;
+padding: 20px;
+box-shadow: 0 0 30px #2aff3b;
+text-align: center;
+width: 100%;
+}
+
+
+.panel.wide { width: 100%; max-width: 900px; }
+
+
+h1 { color: #6bff7a; letter-spacing: 2px; margin: 0 0 20px 0; }
+
+
+input, select {
+background: #000;
+border: 1px solid #333;
+color: #fff;
+padding: 10px;
+margin: 5px;
+width: 100%;
+max-width: 300px;
+font-family: Consolas, monospace;
+font-size: 14px;
+border-radius: 4px;
+}
+
+
+button {
+background: transparent;
+border: 1px solid #6bff7a;
+color: #6bff7a;
+padding: 10px 20px;
+cursor: pointer;
+margin: 10px 5px;
+font-family: Consolas, monospace;
+font-size: 14px;
+border-radius: 4px;
+min-width: 100px;
+transition: all 0.2s ease;
+}
+
+
+button:hover { background: rgba(107,255,122,0.2); }
+button:active { background: rgba(107,255,122,0.4); }
+
+
+.error { color: #ff3b3b; }
+
+
+table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+th, td { border: 1px solid #6bff7a; padding: 10px; text-align: center; }
+th { background: rgba(107,255,122,0.15); font-weight: bold; }
+
+
+tr.me { background: rgba(107,255,122,0.15); }
+tr.danger { color: #ff3b3b; }
+
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  body {
+    min-height: 100vh;
+    padding: 5px;
+  }
+
+  .panel {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin: 0 0 15px 0;
+  }
+
+  input, select {
+    width: 100%;
+    max-width: none;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 16px;
+    min-width: auto;
+  }
+
+  table {
+    font-size: 13px;
+    margin-top: 15px;
+    min-width: 600px;
+  }
+
+  th, td {
+    padding: 12px 8px;
+  }
+
+  hr {
+    margin: 15px 0;
+  }
+
+  .panel.wide {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Table wrapper for horizontal scroll */
+   table {
+    /*display: block;
+    overflow-x: auto;*/
+    -webkit-overflow-scrolling: touch;
+  } 
+}
+
+
+@media (max-width: 480px) {
+  body {
+    padding: 0;
+    background-attachment: scroll;
+  }
+
+  .panel {
+    padding: 12px;
+    border-radius: 0;
+    width: 100%;
+    /*overflow-x: auto;*/
+    overflow-y: visible;
+    background: rgba(10,15,12,0.9);
+    border: 2px solid #6bff7a;
+    box-shadow: 0 0 30px #2aff3b;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  h1 {
+    font-size: 18px;
+    letter-spacing: 1px;
+    margin: 10px 0;
+    color: #6bff7a;
+  }
+
+  input, select {
+    padding: 10px;
+    font-size: 16px;
+    margin: 6px 0;
+  }
+
+  button {
+    padding: 10px;
+    font-size: 14px;
+    margin: 6px 0;
+  }
+
+  table {
+    font-size: 12px;
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 500px;
+  }
+
+  th, td {
+    padding: 10px 6px;
+    border: 1px solid #6bff7a;
+    white-space: nowrap;
+  }
+
+  thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  tbody {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  tr {
+    display: table-row;
+  }
+}
+
+/* ===== FIX MOBILE TABLE SCROLL (QUAN TRỌNG) ===== */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  min-width: 650px; /* ép để sinh scroll ngang */
+  border-collapse: collapse;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  body {
+    align-items: flex-start; /* ❗ RẤT QUAN TRỌNG */
+    justify-content: flex-start;
+  }
+
+  .panel {
+    overflow: visible; /* ❗ KHÔNG CHẶN SCROLL */
+  }
+}
+
+/* Small phone */
+@media (max-width: 480px) {
+  .table-wrapper {
+    margin-top: 10px;
+  }
+
+  table {
+    min-width: 600px;
+  }
+
+  th, td {
+    white-space: nowrap; /* ❗ KHÔNG XUỐNG DÒNG */
+  }
+}
+
+/* ===== PAGE CENTER FIX ===== */
+
+.page-center {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;        /* căn giữa dọc */
+  justify-content: center;    /* căn giữa ngang */
+  padding: 10px;
+}
+
+/* Mobile: vẫn ở giữa, nhưng cho scroll */
+@media (max-width: 768px) {
+  .page-center {
+    align-items: flex-start;  /* tránh bị đẩy quá cao */
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+/* ================= CENTER PERFECT FIX ================= */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: url('../asset/background.png') center/cover no-repeat fixed;
+  color: #e0ffe6;
+  font-family: Consolas, monospace;
+}
+
+/* Wrapper căn giữa tuyệt đối */
+.page-center {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;        /* căn giữa dọc */
+  justify-content: center;    /* căn giữa ngang */
+  padding: 10px;
+}
+
+/* Panel không được chặn scroll con */
+.panel {
+  overflow: visible;
+}
+
+/* ===== TABLE SCROLL ===== */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .page-center {
+    align-items: center;      /* ❗ GIỮ CENTER CẢ DỌC */
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .panel {
+    width: 100%;
+  }
+
+  table {
+    min-width: 600px;
+  }
+
+  th, td {
+    white-space: nowrap;
+  }
+}
+
+/* ================= ADMIN PANEL ================= */
+
+.admin-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.admin-form select,
+.admin-form input {
+  max-width: 200px;
+}
+
+.admin-form button {
+  max-width: 200px;
+}
+
+/* Mobile admin tối ưu thao tác */
+@media (max-width: 768px) {
+  .admin-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-form select,
+  .admin-form input,
+  .admin-form button {
+    width: 100%;
+    max-width: none;
+  }
+}
