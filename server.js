@@ -134,7 +134,7 @@ app.post("/api/admin/update", requireAdmin, (req, res) => {
 
 // GET ALL TEAMS (For admin dropdown)
 app.get("/api/teams", requireAdmin, (req, res) => {
-  db.all("SELECT * FROM teams ORDER BY name", (err, rows) => {
+  db.all("SELECT * FROM teams ORDER BY stations DESC, score DESC, ammo ASC", (err, rows) => {
     if (err) return res.status(500).json({ error: "DB_ERROR" });
     res.json(rows || []);
   });
@@ -142,7 +142,7 @@ app.get("/api/teams", requireAdmin, (req, res) => {
 
 // ================== SOCKET ==================
 function broadcastTeams() {
-  db.all("SELECT * FROM teams ORDER BY score DESC", (err, rows) => {
+  db.all("SELECT * FROM teams ORDER BY stations DESC, score DESC, ammo ASC", (err, rows) => {
     io.emit("leaderboard", rows);
   });
 }

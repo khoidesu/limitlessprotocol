@@ -24,12 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     board.innerHTML = '';
 
-    // Sort by stations (descending), then by ammo (descending)
+    // Sort by stations (descending), then by score (descending), then by ammo (ascending)
     const sortedTeams = [...teams].sort((a, b) => {
-      if (b.stations !== a.stations) {
-        return b.stations - a.stations;
-      }
-      return b.ammo - a.ammo;
+      if (b.stations !== a.stations) return b.stations - a.stations;
+      if (b.score !== a.score) return b.score - a.score;
+      return a.ammo - b.ammo;
     });
 
     sortedTeams.forEach((t, i) => {
